@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 
 
 #To get the data
-df = pd.read_parquet('data/traffic_10lines.parquet')
+df = pd.read_parquet('traffic_10lines.parquet')
 
 #The App title
 st.title('Traffic Forecaster')
