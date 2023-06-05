@@ -11,7 +11,7 @@ from prophet import Prophet
 from datetime import datetime, timedelta
 from mlforecast import MLForecast
 from numba import jit
-from awesome_streamlit.shared import components
+#from awesome_streamlit.shared import components
 from lightgbm import LGBMRegressor
 from xgboost import XGBRegressor
 from sklearn.ensemble import RandomForestRegressor
@@ -21,7 +21,7 @@ from sklearn.pipeline import Pipeline
 
 
 #To get the data
-df = pd.read_parquet('data/traffic_10lines.parquet')
+df = pd.read_parquet('src/data/traffic_10lines.parquet')
 
 #The App title
 st.title('Traffic Forecaster')
@@ -30,7 +30,7 @@ HOME_AIRPORTS = ('LGW', 'LIS', 'SSA', 'NTE', 'LYS', 'PNH', 'POP', 'SCL')
 
 # Build the selection of the Paired airport based on the Home airport in order to avoid the selection of inexisting routes
 with st.sidebar:
-    HOME_AIRPORTS = st.selectbox('Home Airport :airplane_departure:', HOME_AIRPORTS)
+    HOME_AIRPORTS = st.selectbox('Home Airport', HOME_AIRPORTS)
     if HOME_AIRPORTS == "LGW":
         PAIRED_AIRPORTS = ("AMS", "BCN")
     elif HOME_AIRPORTS  == "LIS":
@@ -48,7 +48,7 @@ with st.sidebar:
     elif HOME_AIRPORTS  == "SCL":
         PAIRED_AIRPORTS = ("LHR" ,)
     
-    PAIRED_AIRPORTS = st.selectbox('Paired Airport :airplane_arriving:', PAIRED_AIRPORTS)
+    PAIRED_AIRPORTS = st.selectbox('Paired Airport', PAIRED_AIRPORTS)
     
     forecast_date = st.date_input('Forecast Start Date')
     model_selection = st.selectbox('Model Selection', ['Prophet', 'LGBMRegressor', 'XGBRegressor', 'RandomForestRegressor'])
@@ -85,7 +85,7 @@ def performances(y, y_hat):
 # The Dataframe by route selected
 air_route_df = df[(df['home_airport'] == HOME_AIRPORTS) & (df['paired_airport'] == PAIRED_AIRPORTS)]
 # The Visualization of the Original Dataframe by route selected
-st.subheader("Original DataFrame :floppy_disk:")
+st.subheader("Original DataFrame")
 st.dataframe(data=air_route_df, width=600, height=300)
 
 #The Visualization of the chart by route selected
@@ -232,7 +232,7 @@ if run_forecast:
 st.plotly_chart(fig)
 # Visualize the Forecast dataframe
 if run_forecast:
-    st.subheader("Forecast DataFrame :male_mage:")
+    st.subheader("Forecast DataFrame")
     st.dataframe(data=forecast_df, width=600, height=300)
     
     
